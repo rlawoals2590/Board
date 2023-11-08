@@ -13,7 +13,7 @@ export class BoardsService {
     async getAllBoards(): Promise<Board[]> {
         const boardData = await this.boardModel.find();
         if (!boardData || boardData.length == 0) {
-            throw new NotFoundException('Students data not found!');
+            throw new NotFoundException('Board data not found!');
         }
         return boardData;
     }
@@ -31,7 +31,7 @@ export class BoardsService {
     }
 
     async getBoardById(id: string): Promise<Board> {
-        const found = await this.boardModel.findById(id).exec();
+        const found = await this.boardModel.findOne({id: id});
 
         if(!found){
             throw new NotFoundException(`Can't find Board with id ${id}`);
@@ -41,7 +41,7 @@ export class BoardsService {
     }
 
     async deleteBoardById(id: string): Promise<Board> {
-        const deleteBoard = await this.boardModel.findByIdAndDelete(id);
+        const deleteBoard = await this.boardModel.findOneAndDelete({id: id});
 
         if (!deleteBoard) {
             throw new NotFoundException(`Board #${deleteBoard} not found`);
@@ -50,7 +50,7 @@ export class BoardsService {
     }
 
     async updateBoardStatus(id: string, status: BoardsStatus) {
-        const updateBoard = await this.boardModel.findByIdAndUpdate(id, {
+        const updateBoard = await this.boardModel.findOneAndUpdate({id: id}, {
             status: status
         });
 

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { BoardController } from './boards/board.controller';
+import { ConfigModule } from '@nestjs/config';
 import { BoardModule } from './boards/board.module';
-import { BoardsService } from './boards/board.service';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    BoardModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGODB_URL),
+    BoardModule
   ],
   controllers: [],
   providers: [],
